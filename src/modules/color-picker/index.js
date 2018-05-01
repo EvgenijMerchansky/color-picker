@@ -6,6 +6,11 @@ import normalizingFetch from '../../shared/normalizingFetch';
 import { getColors } from '../../actions';
 import { DEFAULT_COLORS } from '../../constants';
 import { STATES } from '../../constants';
+import './index.css';
+
+import DropDownField from '../../components/DropDownField';
+import DropDownScroll from '../../components/SlidersSwitcher';
+import DropDownButton from '../../components/ButtonSwitcher';
 
 export const lifecycle = withLifecycle({
   onDidMount({ getColors }) {
@@ -15,33 +20,47 @@ export const lifecycle = withLifecycle({
   },
 });
 
-export const withPickerState = withStateHandlers(({
-  state
-}) => ({
-  state: {
-    colors: {},
-    properties: ['1', '2', '3'],
-  }
-}), {
-  getColorsList: () => {
-    
-  },
-});
+export const withPickerState = withStateHandlers(
+  ({value = { color: undefined }}) => ({
+    value,
+  }),
+   {
+     changeColor: ({ state }) => (item) => {
+       return {
+         value: item,
+       };
+     },
+   }
+);
 
 export function ColorPicker({
+  value,
   colors,
   loading,
+  
+  changeColor,
 }) {
   return (
     <div className="App">
-      
       {
         !loading ?
-          <p className="App-intro">
-            Color picker in action
-          </p> : <h1>LOADING...</h1>
+          <div className="drop-down">
+            <DropDownField
+              color={value}
+              defaultColor={colors}
+            />
+            <DropDownScroll
+              color={value}
+              defaultColor={colors}
+              changeColor={changeColor} // currently working
+            />
+            <DropDownButton
+              colors={colors}
+              changeColor={changeColor}
+            />
+          </div> :
+          <h1>LOADING...</h1>
       }
-      
     </div>
   );
 }

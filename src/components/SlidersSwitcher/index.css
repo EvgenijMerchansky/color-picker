@@ -1,0 +1,23 @@
+.drop-down__slide-wrapper {
+    height: 100%;
+}
+
+.drop-down__slide-wrapper:active,
+.drop-down__slide-wrapper:focus,
+.drop-down__slide-wrapper .drop-down__slide-button:focus {
+    outline: none;
+}
+
+.drop-down__slide-button {
+    display: flex;
+    height: 100%;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    outline: none;
+}
+
+.drop-down__slide-current-color {
+    width: 21px;
+    height: 21px;
+}

@@ -1,0 +1,13 @@
+.drop-down__field {
+    flex-grow: 15;
+    flex-shrink: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    border-radius: 2px 0 0 2px;
+    background-color: #fff;
+    border: solid 1px #ccc;
+    padding: 15px;
+    color: #9a9a9a;
+    font-weight: 600;
+}
