@@ -1,13 +1,14 @@
 import React from 'react';
 import './index.css';
 
+import toHex from '../../shared/toHexConverter';
+
 export function DropDownField({
   color,
-  defaultColor
 }) {
   return (
     <div className="drop-down__field">
-      <h5>{color.hex || defaultColor[0].hex}</h5>
+      <h5>{toHex(...color)}</h5>
     </div>
   )
 }

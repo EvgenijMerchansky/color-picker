@@ -17,6 +17,10 @@
     outline: none;
 }
 
+.custom-container {
+    width: auto;
+}
+
 .drop-down__slide-current-color {
     width: 21px;
     height: 21px;

@@ -1,16 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose, withStateHandlers, setDisplayName } from 'recompose';
 import withLifecycle from '@hocs/with-lifecycle';
-import normalizingFetch from '../../shared/normalizingFetch';
-import { getColors } from '../../actions';
-import { DEFAULT_COLORS } from '../../constants';
-import { STATES } from '../../constants';
-import './index.css';
+import { compose, withStateHandlers, setDisplayName } from 'recompose';
 
-import DropDownField from '../../components/DropDownField';
 import DropDownScroll from '../../components/SlidersSwitcher';
 import DropDownButton from '../../components/ButtonSwitcher';
+import DropDownField from '../../components/DropDownField';
+
+import normalizingFetch from '../../shared/normalizingFetch';
+import immutableMerge from '../../shared/arrayMerger';
+
+import { DEFAULT_RGB_COLOR } from '../../constants';
+import { DEFAULT_COLORS } from '../../constants';
+import { STATES } from '../../constants';
+
+import { getColors } from '../../actions';
+
+import './index.css';
 
 export const lifecycle = withLifecycle({
   onDidMount({ getColors }) {
@@ -21,16 +27,15 @@ export const lifecycle = withLifecycle({
 });
 
 export const withPickerState = withStateHandlers(
-  ({value = { color: undefined }}) => ({
-    value,
-  }),
-   {
-     changeColor: ({ state }) => (item) => {
-       return {
-         value: item,
-       };
-     },
-   }
+  ({ value }) => ({
+      value: DEFAULT_RGB_COLOR,
+    }),
+  {
+    changeColor: ({ value }) => (item) => ({ value: item }),
+    updateRed: ({ value }) => e => ({ value: immutableMerge(value, 0, +e.target.value) }),
+    updateGreen: ({ value }) => e => ({ value: immutableMerge(value, 1, +e.target.value) }),
+    updateBlue: ({ value }) => e => ({ value: immutableMerge(value, 2, +e.target.value) }),
+  }
 );
 
 export function ColorPicker({
@@ -39,6 +44,10 @@ export function ColorPicker({
   loading,
   
   changeColor,
+  
+  updateRed,
+  updateGreen,
+  updateBlue,
 }) {
   return (
     <div className="App">
@@ -47,12 +56,16 @@ export function ColorPicker({
           <div className="drop-down">
             <DropDownField
               color={value}
-              defaultColor={colors}
             />
             <DropDownScroll
+              r={value[0]}
+              g={value[1]}
+              b={value[2]}
               color={value}
-              defaultColor={colors}
-              changeColor={changeColor} // currently working
+              changeColor={changeColor}
+              updateRed={updateRed}
+              updateGreen={updateGreen}
+              updateBlue={updateBlue}
             />
             <DropDownButton
               colors={colors}

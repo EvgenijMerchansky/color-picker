@@ -1,6 +1,9 @@
 import React, {Fragment} from 'react';
 import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
+
+import { convertHex } from '../../constants';
+
 import './index.css';
 
 export function DropDownButton({
@@ -22,12 +25,13 @@ export function DropDownButton({
           className="drop-down__button-item" 
           value={item.hex} 
           key={item.luminance} 
-          onClick={() => changeColor(item)} 
+          onClick={() => changeColor(convertHex(item.hex))} 
           children={ 
             <ItemContent 
               name={item.name.toUpperCase()} 
               color={item.hex} 
-            />} 
+            />
+          } 
         />
       ))}
     </DropdownButton>
