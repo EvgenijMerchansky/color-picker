@@ -62,7 +62,6 @@ export function ColorPicker({
               g={value[1]}
               b={value[2]}
               color={value}
-              changeColor={changeColor}
               updateRed={updateRed}
               updateGreen={updateGreen}
               updateBlue={updateBlue}
