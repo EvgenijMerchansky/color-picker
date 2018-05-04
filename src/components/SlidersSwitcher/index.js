@@ -66,7 +66,10 @@ export function DropDownSlide({
               </button>
               <button
                 className="sliders_accept"
-                onClick={() => close()}
+                onClick={() => {
+                  changeColor(color);
+                  close()
+                }}
               >
                 OK
               </button>
