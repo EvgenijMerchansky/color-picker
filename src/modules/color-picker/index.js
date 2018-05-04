@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import withLifecycle from '@hocs/with-lifecycle';
 import { compose, withStateHandlers, setDisplayName } from 'recompose';
+import { ClipLoader } from 'react-spinners';
 
 import DropDownScroll from '../../components/SlidersSwitcher';
 import DropDownButton from '../../components/ButtonSwitcher';
@@ -85,7 +86,13 @@ export function ColorPicker({
               changeColor={changeColor}
             />
           </div> :
-          <h1>LOADING...</h1>
+          <div className="loader">
+            <ClipLoader
+              className="loader"
+              color={'#36d7b7'}
+              loading={loading}
+            />
+          </div>
       }
     </div>
   );
