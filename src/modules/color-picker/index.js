@@ -9,6 +9,7 @@ import DropDownField from '../../components/DropDownField';
 
 import normalizingFetch from '../../shared/normalizingFetch';
 import immutableMerge from '../../shared/arrayMerger';
+import blurUpdater from '../../shared/placeChecker';
 
 import { DEFAULT_RGB_COLOR } from '../../constants';
 import { DEFAULT_COLORS } from '../../constants';
@@ -19,32 +20,43 @@ import { getColors } from '../../actions';
 import './index.css';
 
 export const lifecycle = withLifecycle({
-  onDidMount({ getColors }) {
+  onDidMount({ getColors, updateBlur }) {
     (async () => {
       getColors(await normalizingFetch(DEFAULT_COLORS));
     })();
+  
+    blurUpdater(updateBlur);
   },
 });
 
 export const withPickerState = withStateHandlers(
   ({ value }) => ({
-      value: DEFAULT_RGB_COLOR,
-    }),
+    value: DEFAULT_RGB_COLOR,
+    freezedValue: DEFAULT_RGB_COLOR,
+    appField: undefined,
+  }),
   {
-    changeColor: ({ value }) => (item) => ({ value: item }),
+    changeColor: ({ value }) => (item) => ({ value: item, freezedValue: item }),
     updateRed: ({ value }) => e => ({ value: immutableMerge(value, 0, +e.target.value) }),
     updateGreen: ({ value }) => e => ({ value: immutableMerge(value, 1, +e.target.value) }),
     updateBlue: ({ value }) => e => ({ value: immutableMerge(value, 2, +e.target.value) }),
+    updateBlur: ({ freezedValue }) => e => ({ value: freezedValue }),
   }
 );
+
+/**
+ *
+ * @color-picker
+ * general module
+ */
 
 export function ColorPicker({
   value,
   colors,
   loading,
+  freezedValue,
   
   changeColor,
-  
   updateRed,
   updateGreen,
   updateBlue,
@@ -62,9 +74,11 @@ export function ColorPicker({
               g={value[1]}
               b={value[2]}
               color={value}
+              freezedColor={freezedValue}
+              changeColor={changeColor}
               updateRed={updateRed}
-              updateGreen={updateGreen}
               updateBlue={updateBlue}
+              updateGreen={updateGreen}
             />
             <DropDownButton
               colors={colors}

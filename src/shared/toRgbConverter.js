@@ -1,3 +1,9 @@
+/**
+ *
+ * @helper_functions
+ * convertHex
+ */
+
 const convertHex = (hex) => {
   const updatedHex = hex.replace('#','');
   const r = parseInt(updatedHex.substring(0,2), 16),

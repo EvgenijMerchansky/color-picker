@@ -1,3 +1,9 @@
+/**
+ *
+ * @helper_functions
+ * itemToHex
+ */
+
 const itemToHex = (c) => {
   const hex = c.toString(16);
   

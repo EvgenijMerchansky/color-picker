@@ -3,12 +3,18 @@ import './index.css';
 
 import toHex from '../../shared/toHexConverter';
 
+/**
+ *
+ * @text_field
+ * module for render color name
+ */
+
 export function DropDownField({
   color,
 }) {
   return (
     <div className="drop-down__field">
-      <h5>{toHex(...color)}</h5>
+      {toHex(...color)}
     </div>
   )
 }

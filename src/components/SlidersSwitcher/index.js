@@ -1,91 +1,79 @@
-import React from 'react';
-import Popover from 'react-bootstrap/lib/Popover';
-import Button from 'react-bootstrap/lib/Button';
-import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
+import React, {Fragment} from 'react';
+import Popup from "reactjs-popup";
 
+import { contentStyle, overlayStyle } from './popupStyle';
 import './index.css';
 
 import toHex from '../../shared/toHexConverter';
 
-function PopoverClickRootClose({ r, g, b, updateRed, updateGreen, updateBlue }) { // IN SEPARATE COMPONENT
-  return (
-    <Popover id="popover-trigger-click-root-close" title="Popover bottom">
-      <div className="container custom-container">
-        <div className="sliders">
-          <div className="red">
-            <input
-              id="red"
-              type="range"
-              min="0"
-              max="255"
-              value={r}
-              onChange={updateRed}
-            />
-            <label>Red: </label>
-          </div>
-          <div className="green">
-            <input
-              id="green"
-              type="range"
-              min="0"
-              max="255"
-              value={g}
-              onChange={updateGreen}
-            />
-            <label>Green:</label>
-          </div>
-          <div className="blue">
-            <input id="blue" type="range"
-              min="0"
-              max="255"
-              value={b}
-              onChange={updateBlue}
-            />
-            <label>Blue: </label>
-          </div>
-        </div>
-        <div className="button-block"></div>
-      </div>
-    </Popover>
-  );
-}
+import PopoverClickRootClose from '../SlidersPopoverContent';
+
+/**
+ *
+ * @dropdown
+ * module for choose color in RGB modal
+ */
 
 export function DropDownSlide({
   r,
   g,
   b,
   color,
+  freezedColor,
   
+  changeColor,
   updateRed,
   updateGreen,
   updateBlue,
 }) {
   return (
     <div className="drop-down__slide-wrapper">
-      <OverlayTrigger
-        trigger="click"
-        rootClose
-        placement="bottom"
-        overlay={
-          <PopoverClickRootClose
-            r={r}
-            g={g}
-            b={b}
-            updateRed={updateRed}
-            updateGreen={updateGreen}
-            updateBlue={updateBlue}
-          />
+      <Popup
+        modal={true}
+        contentStyle={contentStyle}
+        overlayStyle={overlayStyle}
+        arrow={false}
+        className="custom-popup-content"
+        trigger={
+          <button className="drop-down__slide-button">
+            <span className="drop-down__slide-button_color" style={{ backgroundColor: toHex(...color) }}/>
+          </button>
         }
+        position="bottom right"
       >
-        <Button className="drop-down__slide-button">
-          <div
-            className="drop-down__slide-current-color"
-            style={{
-              backgroundColor: toHex(...color)
-            }}
-          />
-        </Button>
-      </OverlayTrigger>
+        { close => (
+          <Fragment>
+            <PopoverClickRootClose
+              color={color}
+              freezedColor={freezedColor}
+              r={r}
+              g={g}
+              b={b}
+              changeColor={changeColor}
+              updateRed={updateRed}
+              updateGreen={updateGreen}
+              updateBlue={updateBlue}
+            />
+            <div className="drop-down__slide-button-footer">
+              <button
+                className="drop-down__slide-button-footer_cancel"
+                onClick={() => {
+                  changeColor(freezedColor);
+                  close();
+                }}
+              >
+                CANCEL
+              </button>
+              <button
+                className="sliders_accept"
+                onClick={() => close()}
+              >
+                OK
+              </button>
+            </div>
+          </Fragment>
+        )}
+      </Popup>
     </div>
   )
 }

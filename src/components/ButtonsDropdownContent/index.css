@@ -1,0 +1,17 @@
+.drop-down__button-content-wrapper {
+    margin-left: 0;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.drop-down__button-content-color {
+    width: 21px;
+    height: 21px;
+}
+
+.drop-down__button-content-text {
+    margin: 0;
+}

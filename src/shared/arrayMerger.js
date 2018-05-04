@@ -1,3 +1,9 @@
+/**
+ *
+ * @helper_functions
+ * immutableMerge
+ */
+
 const immutableMerge = (value, index, data) => {
   value[index] = data;
   
